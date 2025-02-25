@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Website mata -->
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- Disable transformation -->
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<!-- Website description -->
+
+<meta name="description" content="[读书笔记] Android应用性能优化" />
+
+
+<!-- Website keywords -->
+
+<meta name="keywords" content="读书笔记, 2116喵喵技术屋个人分享" />
+
+
+
+
+<!-- Website rss -->
+
+<link rel="alternate" href="/default" title="2116喵喵技术屋个人分享" >
+
+
+<!-- Website favicon -->
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3.0.0" />
+
+
+<!-- Canonical, good for google search engine -->
+<link rel="canonical" href="https://hyh21.cn/2017/03/31/读书笔记-Android应用性能优化/" />
+
+<!-- Fancybox styling -->
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+<!-- MathJax (LaTeX) support -->
+
+
+<!-- Theme styling -->
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=3.0.0" />
+
+<!-- Analytics and push -->
+
+
+
+  
+
+
+
+<!-- LeanCloud Counter -->
+
+
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null,"server_url":null,"cdn":null},"toc":true,"fancybox":true,"latex":false};
+</script>
+  
+  <title>[读书笔记] Android应用性能优化 - 2116喵喵技术屋个人分享</title>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div class="scrollPercentage"></div>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">2116喵喵技术屋个人分享</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+    <a href="/">
+      <li class="mobile-menu-item">
+        
+        
+        Home              </li>
+    </a>
+    
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+      <div class="logo-wrapper">  
+  <a href="/." class="logo">2116喵喵技术屋个人分享</a>  
+</div>  
+  
+<nav class="site-navbar">  
+    
+    <ul id="menu" class="menu">  
+        
+        <li class="menu-item">  
+          <a class="menu-item-link" href="/">  
+              
+              
+              Home  
+              
+          </a>  
+        </li>  
+        
+    </ul>  
+    
+</nav>  
+
+    </header>
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      [读书笔记] Android应用性能优化
+      
+    </h1>
+
+    <div class="post-meta">
+      <span class="post-time">
+        2017-03-31
+      </span>
+      
+      
+      
+    </div>
+  </header>
+
+  
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Android%E5%BA%94%E7%94%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">[读书笔记] Android应用性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">Java代码优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E4%BC%98%E5%8C%96"><span class="toc-number">1.1.1.</span> <span class="toc-text">斐波那契数列优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQLite"><span class="toc-number">1.1.2.</span> <span class="toc-text">SQLite</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E6%95%88%E4%BD%BF%E7%94%A8%E5%86%85%E5%AD%98"><span class="toc-number">1.2.</span> <span class="toc-text">高效使用内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E9%95%BF%E5%BA%A6%E2%80%94%E2%80%94%E5%AD%97%E8%8A%82%E7%A0%81%E5%B1%82%E9%9D%A2"><span class="toc-number">1.2.1.</span> <span class="toc-text">数据类型的长度——字节码层面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.2.</span> <span class="toc-text">排序的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F-StrictMode%E6%A3%80%E6%B5%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">内存泄漏-StrictMode检测</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%90%8C%E6%AD%A5"><span class="toc-number">1.3.</span> <span class="toc-text">多线程和同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E9%BB%98%E8%AE%A4%E5%90%AF%E5%8A%A8%E7%9A%84%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">一个应用默认启动的线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E4%B8%8EUI%E4%BC%98%E5%8C%96"><span class="toc-number">1.4.</span> <span class="toc-text">图形与UI优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%EF%BC%9Ahierarchyviewer"><span class="toc-number">1.4.1.</span> <span class="toc-text">工具：hierarchyviewer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%EF%BC%9Alayoutopt"><span class="toc-number">1.4.2.</span> <span class="toc-text">工具：layoutopt</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%B1%A0%E7%BB%AD%E8%88%AA"><span class="toc-number">1.5.</span> <span class="toc-text">电池续航</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E8%AF%84%E6%B5%8B%E5%92%8C%E5%89%96%E6%9E%90"><span class="toc-number">1.6.</span> <span class="toc-text">性能评测和剖析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%B5%8B%E9%87%8F"><span class="toc-number">1.6.1.</span> <span class="toc-text">时间测量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E8%B7%9F%E8%B8%AA"><span class="toc-number">1.6.2.</span> <span class="toc-text">方法跟踪</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TraceView%E5%B7%A5%E5%85%B7"><span class="toc-number">1.6.3.</span> <span class="toc-text">TraceView工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NDK%E5%85%A5%E9%97%A8%E5%92%8C%E8%BF%9B%E9%98%B6"><span class="toc-number">1.7.</span> <span class="toc-text">NDK入门和进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HelloWorld"><span class="toc-number">1.7.1.</span> <span class="toc-text">HelloWorld</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNI%E8%AE%BF%E9%97%AEJava%E5%9F%9F%E3%80%81%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.7.2.</span> <span class="toc-text">JNI访问Java域、调用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%9C%AC%E5%9C%B0Activity"><span class="toc-number">1.7.3.</span> <span class="toc-text">实现本地Activity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NDK%E6%94%AF%E6%8C%81%E7%BC%96%E8%AF%91%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81"><span class="toc-number">1.7.4.</span> <span class="toc-text">NDK支持编译汇编代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JNI%E5%92%8C%E5%8E%9F%E7%94%9F%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E6%80%A7%E8%83%BD%EF%BC%89"><span class="toc-number">1.7.5.</span> <span class="toc-text">JNI和原生实现的区别（性能）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98"><span class="toc-number">1.7.6.</span> <span class="toc-text">字符串的性能问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C%E6%89%A9%E5%B1%95%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">1.7.7.</span> <span class="toc-text">C扩展性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E2%80%94%E2%80%94build-in"><span class="toc-number">1.7.7.1.</span> <span class="toc-text">内置函数——build-in</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E6%8C%87%E4%BB%A4"><span class="toc-number">1.7.7.2.</span> <span class="toc-text">向量指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%84%E5%8A%A0%E8%BD%BD%E5%86%85%E5%AD%98"><span class="toc-number">1.7.7.3.</span> <span class="toc-text">预加载内存</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E3%80%81RenderScript"><span class="toc-number">1.8.</span> <span class="toc-text">渲染、RenderScript</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenGL-ES"><span class="toc-number">1.8.1.</span> <span class="toc-text">OpenGL ES</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mipmap"><span class="toc-number">1.8.2.</span> <span class="toc-text">Mipmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RenderScript"><span class="toc-number">1.8.3.</span> <span class="toc-text">RenderScript</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </div>
+  
+
+  <div class="post-content">
+    
+    <p>一本比较轻量的书，不到一天就可以看完，优化覆盖的面也挺广，会涉及到字节码汇编的一些知识，还有NDK的入门；不足之处里面的API会显得很老，没有收录到最新的优化技巧，提到的点需要自己去深入研究才会更有收获。</p>
+<span id="more"></span>
+
+<h1 id="读书笔记-Android应用性能优化"><a href="#读书笔记-Android应用性能优化" class="headerlink" title="[读书笔记] Android应用性能优化"></a>[读书笔记] Android应用性能优化</h1><p><img src="/9061655-file_1490942926331_71b4.png"></p>
+<h2 id="Java代码优化"><a href="#Java代码优化" class="headerlink" title="Java代码优化"></a>Java代码优化</h2><h3 id="斐波那契数列优化"><a href="#斐波那契数列优化" class="headerlink" title="斐波那契数列优化"></a>斐波那契数列优化</h3><blockquote>
+<p>0,1,1,2,3,5,8…由前面两个数相加</p>
+</blockquote>
+<p>从递归到迭代，从迭代到减少迭代次数，再到缓存以多次运算</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">computeIterativelyFaster</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(n &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="type">long</span> a, b = <span class="number">1</span>;</span><br><span class="line">    n--;</span><br><span class="line">    a = n &amp; <span class="number">1</span>;</span><br><span class="line">    n /= <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">while</span>(n-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      a += b;</span><br><span class="line">      b += a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>BigInteger的使用</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> BigInteger <span class="title function_">computeIterativelyFaster</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(n &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    BigInteger a, b = BigInteger.ONE;</span><br><span class="line">    n--;</span><br><span class="line">    a = BigInteger.valueOf(n &amp; <span class="number">1</span>);</span><br><span class="line">    n /= <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">while</span>(n-- &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// 不断创建新对象，很影响性能</span></span><br><span class="line">      a = a.add(b);</span><br><span class="line">      b = b.add(a);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (n == <span class="number">0</span>) ? BigIngeter.ZERO : BigInteger.ONE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>斐波那契Q-矩阵公式：</strong><br>$$<br>F_{2n-1} &#x3D; F_{n}^{2} + F_{n-1}^2\<br>F_{2n} &#x3D; (2F_{n-1}+F_{n})*F_{n}<br>$$</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">computeRecursively</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(n &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> (n / <span class="number">2</span>) + (n &amp; <span class="number">1</span>);</span><br><span class="line">    <span class="type">int</span> <span class="variable">fm</span> <span class="operator">=</span> computeRecursively(m);</span><br><span class="line">    <span class="type">int</span> <span class="variable">fm_1</span> <span class="operator">=</span> computeRecursively(m - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>((n &amp; <span class="number">1</span>) == <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> fm * fm + fm_1 * fm_1;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> (<span class="number">2</span> * fm_1 + fm) * fm;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (n == <span class="number">0</span>) ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h3><p>字符串的拼接优化</p>
+<p>SQLiteStatement实现只编译一次</p>
+<p>使用ContentValues灵活实现</p>
+<p>使用事务</p>
+<p>FTS全文检索</p>
+<h2 id="高效使用内存"><a href="#高效使用内存" class="headerlink" title="高效使用内存"></a>高效使用内存</h2><p>内存的使用主要涉及的两个因素：</p>
+<ol>
+<li>物理内存大小</li>
+<li>虚拟内存交换能力</li>
+</ol>
+<h3 id="数据类型的长度——字节码层面"><a href="#数据类型的长度——字节码层面" class="headerlink" title="数据类型的长度——字节码层面"></a>数据类型的长度——字节码层面</h3><p>两个64位证书相加的字节码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">448</span>: e0944002 adds	r4, r4, r2</span><br><span class="line"><span class="number">44</span>c: e0a55003 adc 	r5, r5, r3</span><br></pre></td></tr></table></figure>
+
+<p>两个int型则只需要一条字节码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">16c8: e0810000 add	r0, r1, r0</span><br></pre></td></tr></table></figure>
+
+<h3 id="排序的实现"><a href="#排序的实现" class="headerlink" title="排序的实现"></a>排序的实现</h3><p>Array.sort()对于不同的数据类型是采取不同的算法来进行排序</p>
+<h3 id="内存泄漏-StrictMode检测"><a href="#内存泄漏-StrictMode检测" class="headerlink" title="内存泄漏-StrictMode检测"></a>内存泄漏-StrictMode检测</h3><p>主要有ThreadPolicy和VmPolicy检测，会记录到日志中，需要我们进一步分析日志</p>
+<h2 id="多线程和同步"><a href="#多线程和同步" class="headerlink" title="多线程和同步"></a>多线程和同步</h2><p>使用线程Thread和AsyncTask</p>
+<p>Handler的机制使用</p>
+<p>并发类</p>
+<p>Sychronized和volatile关键字</p>
+<p>使用线程池，并发缓存ConcurrentHashMap</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ExecutorService</span> <span class="variable">executorService</span> <span class="operator">=</span> Executors.newFixedThreadPool(proc + <span class="number">2</span>);</span><br><span class="line">executorService.submit();</span><br></pre></td></tr></table></figure>
+
+<h3 id="一个应用默认启动的线程"><a href="#一个应用默认启动的线程" class="headerlink" title="一个应用默认启动的线程"></a>一个应用默认启动的线程</h3><ul>
+<li>main</li>
+<li>HeapWorker（执行finalize函数和引用对象清理）</li>
+<li>GC（垃圾回收）</li>
+<li>Signal Catcher（捕捉Linux信号进行处理）</li>
+<li>JDWP（Java Debug wire Protocol，调试协议服务）</li>
+<li>Compiler（JIT即时编译）</li>
+<li>Binder Thread #1（Binder通信）</li>
+<li>Binder Thread #2</li>
+</ul>
+<h2 id="图形与UI优化"><a href="#图形与UI优化" class="headerlink" title="图形与UI优化"></a>图形与UI优化</h2><ul>
+<li>嵌套过深：使用&lt;include&gt;、&lt;merge&gt;、&lt;viewstub&gt;；扁平化布局</li>
+</ul>
+<h3 id="工具：hierarchyviewer"><a href="#工具：hierarchyviewer" class="headerlink" title="工具：hierarchyviewer"></a>工具：hierarchyviewer</h3><ul>
+<li>显示当前页面的树结构</li>
+<li>对测量、布局和绘制三个步骤使用的时间进行统计</li>
+</ul>
+<h3 id="工具：layoutopt"><a href="#工具：layoutopt" class="headerlink" title="工具：layoutopt"></a>工具：layoutopt</h3><p>针对单个xml文件给出建议，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The root-level &lt;FrameLayout/&gt; can be replaced with &lt;merge/&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="电池续航"><a href="#电池续航" class="headerlink" title="电池续航"></a>电池续航</h2><p><strong>影响电量的主要功能：</strong></p>
+<ul>
+<li>屏幕：WakeLock</li>
+<li>执行代码：广播，大量运算，定时唤醒</li>
+<li>数据传输：网络，Wifi</li>
+<li>位置服务：网络，GPS</li>
+<li>传感器：加速度计，陀螺仪</li>
+<li>渲染图像：GPU渲染，看不见我们一定要控制停止其渲染</li>
+</ul>
+<h2 id="性能评测和剖析"><a href="#性能评测和剖析" class="headerlink" title="性能评测和剖析"></a>性能评测和剖析</h2><h3 id="时间测量"><a href="#时间测量" class="headerlink" title="时间测量"></a>时间测量</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">System.currentTimeMillis</span><br><span class="line">System.nanoTime						<span class="comment">//精度取决于系统的精度</span></span><br><span class="line">Debug.threadCpuTimenanos 			<span class="comment">//多线程会将每个线程的时间都加在一起</span></span><br><span class="line">SystemClock.currentThreadTimeMillis</span><br><span class="line">SystemClock.elapsedRealtime</span><br><span class="line">SystemClock.uptimeMillis</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法跟踪"><a href="#方法跟踪" class="headerlink" title="方法跟踪"></a>方法跟踪</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Debug.<span class="keyword">class</span></span><br><span class="line"><span class="title class_">startMethodTracing</span>()</span><br><span class="line">stratMethodTracing(String traceName)	<span class="comment">// 记录的文件名</span></span><br><span class="line">startMethodTracing(String traceName, <span class="type">int</span> bufferSize)</span><br><span class="line">startMethodTracing(String tarceName, <span class="type">int</span> bufferSize, <span class="type">int</span> flags)</span><br></pre></td></tr></table></figure>
+
+<h3 id="TraceView工具"><a href="#TraceView工具" class="headerlink" title="TraceView工具"></a>TraceView工具</h3><p>在SDK的tools目录下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tarceview awesometrace.tarce <span class="comment">// 启动Traceview工具</span></span><br></pre></td></tr></table></figure>
+
+<p>包含了所有的函数调用，以及调用执行时间和调用次数等信息；</p>
+<p><strong>本地方法调用，利用QEMU模拟器跟踪</strong></p>
+<ul>
+<li>通过-trace选项启动模拟器<code>emulator -trace mytrace -avd myavd</code></li>
+<li>调用Debug.startNativeTracing()和Debug.stopNativeTracing()来进行跟踪，也可以使用F9来启动</li>
+<li>在AVD中会生成QEMU模拟器跟踪文件</li>
+</ul>
+<p><strong>使用tracedmdump命令</strong></p>
+<p>定义在build&#x2F;envsetup.sh文件中，需要下载Android源码才能使用</p>
+<p>在AVD的目录下运行<code>tracedmdump mytrace</code>来创建traceview可以打开的跟踪文件</p>
+<h2 id="NDK入门和进阶"><a href="#NDK入门和进阶" class="headerlink" title="NDK入门和进阶"></a>NDK入门和进阶</h2><p>NDK是为应用开发本地代码的一套工具</p>
+<h3 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h3><p>简单实现一个Java调用C&#x2F;C++的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. Java中声明本地方法，不限定一定是static，也不限定一定是基本类型</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="type">long</span> <span class="title function_">recursiveNative</span><span class="params">(<span class="type">int</span> n)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. JNI粘合层，生成JNI头文件和JNI的C源文件</span></span><br><span class="line">cd /目录;</span><br><span class="line">mkdir jni;</span><br><span class="line">javah -classpath bin -jni -d jni com.apress.proandroid.Fibonacci;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 实现自己的头文件和实现函数，粘合层调用本地方法实现操作，为了方便本地函数的复用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 创建Makefile</span></span><br><span class="line"><span class="comment">// 构建文件</span></span><br><span class="line">Application.mk(可选)</span><br><span class="line">  APP_ABI := armeabi <span class="comment">//针对某个处理器生成一个版本的库</span></span><br><span class="line"><span class="comment">// 针对整个应用的共同变量</span></span><br><span class="line">Android.mk</span><br><span class="line">  LOCAL_PATH := $(call my-dir)		<span class="comment">// Android.md的路径</span></span><br><span class="line">  include $(CLEAR_VARS)				<span class="comment">// 清除LOCAL_PATH以外的所有LOCAL_XX变量，防出错</span></span><br><span class="line">  LOCAL_MODULE := fibonacci			<span class="comment">// 生成库的名称</span></span><br><span class="line">  LOCAL_SRC_FILES := com_apress_proandroid_Fibonacci.c	<span class="comment">// JNI的c文件、我们实现的c文件也要添加</span></span><br><span class="line">  include $(BUILD_SHARED_LIBRARY)	<span class="comment">// 构件库的规则文件，这里是共享库的规则，还有静态库</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 5. 编译本地库，生成so库</span></span><br><span class="line">ndk-build</span><br><span class="line">  </span><br><span class="line"><span class="comment">// 6.加载调用，在适合的时候进行加载本地库，然后java调用Native方法即可，加载失败要自行处理</span></span><br><span class="line">System.loadLibrary(<span class="string">&quot;fibonacci&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>JNI粘合层，生成JNI的头文件和JNI的C源文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 头文件中的方法声明</span></span><br><span class="line">JNIEXPORT jlong JNICALL</span><br><span class="line"><span class="title function_">Java_com_apress_proandroid_Fibonacci_recursiveNative</span><span class="params">(JNIEnv *, jclass, jint)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 源文件中的实现</span></span><br><span class="line">jlong JNICALL</span><br><span class="line"><span class="title function_">Java_com_apress_proandroid_Fibonacci_recursiveNative</span><span class="params">(JNIEnv *env, jclass clazz, jint n)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<p>JNIEnv指针：JNIEnv的对象是JNI环境本身，他可以与虚拟机交互</p>
+<p>jclass&#x2F;jobject：方法为静态的则是jclass，否则就是jobject类型</p>
+<h3 id="JNI访问Java域、调用方法"><a href="#JNI访问Java域、调用方法" class="headerlink" title="JNI访问Java域、调用方法"></a>JNI访问Java域、调用方法</h3><p>主要通过一个id来进行访问调用，这个id可以通过env来进行获取</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取ID</span></span><br><span class="line">jfiledID someIntegerID = (*env)-&gt;GetStaticFieldID(env, clazz, <span class="string">&quot;someInteger&quot;</span>, <span class="string">&quot;I&quot;</span>);</span><br><span class="line">jfiledID helloFromJNIId = (*env)-&gt;GetStaticMethodID(env, clazz, <span class="string">&quot;helloFromJNI&quot;</span>, <span class="string">&quot; ()V&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 访问调用</span></span><br><span class="line">(*env)-&gt;SetStaticIntField(env, clazz, helloFromJNIId);</span><br><span class="line">(*env)-&gt;ClaaStaticVoidMethod(env, clazz, someIntegerId);</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现本地Activity"><a href="#实现本地Activity" class="headerlink" title="实现本地Activity"></a>实现本地Activity</h3><ol>
+<li><p>通过实现NativeActivity类</p>
+<p>manifest.xml：hasCode可以关掉了；指定本地库和方法</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>&quot;<span class="attr">android.app.lib_name</span>&quot;</span></span><br><span class="line"><span class="tag">           <span class="attr">android:value</span>=<span class="string">&quot;myapp&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta-data</span> <span class="attr">android:name</span>&quot;<span class="attr">android.app.func_name</span>&quot;</span></span><br><span class="line"><span class="tag">           <span class="attr">android:value</span>=<span class="string">&quot;ANativeActivity_onCreate&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>功能通过引入相关的头文件实现</p>
+<p>从<code>void android mian(struct android_app* state)</code>开始工作</p>
+</li>
+<li><p>实现纯本地Activity</p>
+<p>通过自己实现生命周期的回调（即是native_app_glue模块实现的功能）</p>
+</li>
+</ol>
+<h3 id="NDK支持编译汇编代码"><a href="#NDK支持编译汇编代码" class="headerlink" title="NDK支持编译汇编代码"></a>NDK支持编译汇编代码</h3><p>很少使用上，太具有系统架构针对性了，需要我们学习指令，x86和ARM汇编的实现都不一样。</p>
+<p>书中有汇编的并行实现功能</p>
+<h3 id="JNI和原生实现的区别（性能）"><a href="#JNI和原生实现的区别（性能）" class="headerlink" title="JNI和原生实现的区别（性能）"></a>JNI和原生实现的区别（性能）</h3><p>原生是编译成Dalvik字节码，JIT优化带来了很大的性能优化</p>
+<p>本地函数是编译成汇编代码，更加紧凑和体积小，但是不一定比原生的快</p>
+<p>需要注意我们再Java和本地空间的过渡时间消耗</p>
+<h3 id="字符串的性能问题"><a href="#字符串的性能问题" class="headerlink" title="字符串的性能问题"></a>字符串的性能问题</h3><p>Java的字符串要提供给本地方法使用的话，必须进行转码</p>
+<p>Java使用16位的Unicode字符来进行编码</p>
+<p>C&#x2F;C++则大部分使用char *来做字符串用</p>
+<h3 id="C扩展性能优化"><a href="#C扩展性能优化" class="headerlink" title="C扩展性能优化"></a>C扩展性能优化</h3><h4 id="内置函数——build-in"><a href="#内置函数——build-in" class="headerlink" title="内置函数——build-in"></a>内置函数——build-in</h4><p>也被称为内联intrinsics，是有编译器内部进行特别处理的函数，可以在保持代码通用性的同时，充分利用某些平台上特有优化</p>
+<p>直接在调用处用实现替换调用，或者在函数定义前加上inline关键字，小心代码变臃肿</p>
+<p>拆循环，拆成switch&#x2F;case；效果是不稳定的，不要测试才知道，假如循环体太大，对指令缓存也只是负面影响。</p>
+<h4 id="向量指令"><a href="#向量指令" class="headerlink" title="向量指令"></a>向量指令</h4><p>在CPU支持SIMD指令的情况下，可以大大提高性能；不支持时，则会生成很低性能代码</p>
+<p><code>（vector_size (16)）</code>这是一个4个整数的向量</p>
+<h4 id="预加载内存"><a href="#预加载内存" class="headerlink" title="预加载内存"></a>预加载内存</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>* dst, <span class="type">const</span> <span class="type">int</span>* src;</span><br><span class="line">__builtin_prefetch(dst + <span class="number">8</span>, <span class="number">1</span>, <span class="number">0</span>);<span class="comment">//准备写</span></span><br><span class="line">__builtin_prefetch(src + <span class="number">8</span>, <span class="number">0</span>, <span class="number">0</span>);<span class="comment">//准备读</span></span><br></pre></td></tr></table></figure>
+
+<p>小心使用，不是必须加载进来是会增加缓存的压力，导致性能降低的</p>
+<h2 id="渲染、RenderScript"><a href="#渲染、RenderScript" class="headerlink" title="渲染、RenderScript"></a>渲染、RenderScript</h2><h3 id="OpenGL-ES"><a href="#OpenGL-ES" class="headerlink" title="OpenGL ES"></a>OpenGL ES</h3><blockquote>
+<p>书中这节属于图形这一章，在这里描述会更好一点</p>
+</blockquote>
+<p>这是一个渲染库</p>
+<p><strong>纹理压缩：</strong></p>
+<blockquote>
+<p>未压缩的256*256的RGBA8888就会占用256KB的内存</p>
+</blockquote>
+<p>ETC1是一个创建纹理的工具（etc1 tool）：舍弃透明度，每个像素使用4位。</p>
+<h3 id="Mipmap"><a href="#Mipmap" class="headerlink" title="Mipmap"></a>Mipmap</h3><p>通过提供多层次细节的纹理，解决在小像素中显示很大的图片，避免浪费内存。</p>
+<p>通过派生出很多种尺寸的图片，所以Mipmap包会比原始图像多用掉33%的存储。</p>
+<h3 id="RenderScript"><a href="#RenderScript" class="headerlink" title="RenderScript"></a>RenderScript</h3><p>针对高性能3D渲染和计算操作的框架</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">脚本文件</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> version(1)</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> rs java_package_name(com.apress.proandrdoi.ch9)</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">hello_world</span><span class="params">()</span>&#123;</span><br><span class="line">  rsDebug(<span class="string">&quot;Hello World&quot;</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>会自动生成：</p>
+<ul>
+<li>ScriptC_helloworld.java</li>
+<li>helloworld.d</li>
+<li>helloworld.bc</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用</span></span><br><span class="line"><span class="type">RenderScript</span> <span class="variable">rs</span> <span class="operator">=</span> RenderScript.create(<span class="built_in">this</span>);</span><br><span class="line"><span class="comment">// 创建脚本</span></span><br><span class="line"><span class="type">ScriptC_helloworldScipt</span> <span class="variable">helloworldScript</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ScriptC_helloworld</span>(rs, getResources(), R.raw.helloworld);</span><br><span class="line"><span class="comment">// 执行，包含反射操作</span></span><br><span class="line">helloworldScript.invoke_hello_world();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 还可以使用RSSurfaceView来绑定渲染</span></span><br><span class="line">使用RenderScriptGL.bindRootScript来进行绑定脚本</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这本书里面使用的代码有点老旧了，一些最新优化方法没有提到，但是他不拘细节的描述，可以在时间很短的情况下看完这本书，这些优化方法还需要自己进一步地去进行深究；这本书的一个好处是对检测的工具也有比较广的介绍，并有提到一些比较冷门的技术点，也是开阔视野的一个不错选择。一句总结：广泛且底层，却不拘细节。</p>
+<p>另外这本书十分执着于字节码和汇编代码上面的影响，也带给了自身不少启发。</p>
+<p>工具的复习：TraceView、hierarchyviewer、layoutopt</p>
+<p>NDK的粗略了解：使用步骤，性能的区别</p>
+
+    
+  </div>
+
+  
+  <!-- Post Copyright -->
+
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span>Author: </span>
+    <a href="https://hyh21.cn">HYH</a>
+  </p>
+  <p class="copyright-item">
+    <span>Link: </span>
+    <a href="https://hyh21.cn/2017/03/31/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Android%E5%BA%94%E7%94%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">https://hyh21.cn/2017/03/31/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Android%E5%BA%94%E7%94%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</a>
+  </p>
+  <p class="copyright-item">
+    <span>License: </span>
+    
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+  </p>
+</div>
+
+    
+
+  
+
+  
+  <footer class="post-footer">
+    
+    <div class="post-tags">
+      
+      <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a>
+      
+    </div>
+    
+      
+  <nav class="post-nav">  
+      
+      
+      <a class="next" href="/2017/03/27/%E5%85%83%E9%A6%96%E4%BC%9A%E6%99%A4-https%E5%8E%9F%E7%90%86%E5%8F%8A%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81/">  
+        <span class="next-text nav-default">[元首会晤] https原理及证书验证</span>  
+        <span class="prev-text nav-mobile">Next</span>  
+        <i class="iconfont icon-right"></i>  
+      </a>  
+      
+  </nav>  
+  
+
+  </footer>
+  
+
+</article>
+        </div>
+          
+  <div class="comments" id="comments">  
+      
+  </div>  
+  
+
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <!-- Social Links -->
+
+<div class="social-links">
+  
+  
+  
+  
+  <a href="mailto:example@email.com" class="iconfont icon-email" title="email"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <a target="_blank" rel="noopener" href="https://github.com/HYH21" class="iconfont icon-github" title="github"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+  
+</div>
+
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme -
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/zeed-w-beez/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    <span>
+      
+      &copy;
+      
+      2015 - 2025      
+    </span>
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+
+    <span class="author">HYH</span>
+  </span>
+
+</div>
+    </footer>
+    <div class="back-to-top" id="back-to-top"> <i class="iconfont icon-up"></i> </div>
+  </div>
+    
+    
+    
+    
+    
+    
+    
+  
+
+  
+
+
+
+
+
+
+
+<script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/even.js?v=3.0.0"></script>
+</body>
+
+</html>

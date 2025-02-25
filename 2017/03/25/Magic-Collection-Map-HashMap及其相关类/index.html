@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Website mata -->
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- Disable transformation -->
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<!-- Website description -->
+
+<meta name="description" content="[Magic Collection &amp; Map] HashMap及其相关类" />
+
+
+<!-- Website keywords -->
+
+<meta name="keywords" content="Java基础, Collection&amp;Map, 2116喵喵技术屋个人分享" />
+
+
+
+
+<!-- Website rss -->
+
+<link rel="alternate" href="/default" title="2116喵喵技术屋个人分享" >
+
+
+<!-- Website favicon -->
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3.0.0" />
+
+
+<!-- Canonical, good for google search engine -->
+<link rel="canonical" href="https://hyh21.cn/2017/03/25/Magic-Collection-Map-HashMap及其相关类/" />
+
+<!-- Fancybox styling -->
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+<!-- MathJax (LaTeX) support -->
+
+
+<!-- Theme styling -->
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=3.0.0" />
+
+<!-- Analytics and push -->
+
+
+
+  
+
+
+
+<!-- LeanCloud Counter -->
+
+
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null,"server_url":null,"cdn":null},"toc":true,"fancybox":true,"latex":false};
+</script>
+  
+  <title>[Magic Collection &amp; Map] HashMap及其相关类 - 2116喵喵技术屋个人分享</title>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div class="scrollPercentage"></div>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">2116喵喵技术屋个人分享</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+    <a href="/">
+      <li class="mobile-menu-item">
+        
+        
+        Home              </li>
+    </a>
+    
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+      <div class="logo-wrapper">  
+  <a href="/." class="logo">2116喵喵技术屋个人分享</a>  
+</div>  
+  
+<nav class="site-navbar">  
+    
+    <ul id="menu" class="menu">  
+        
+        <li class="menu-item">  
+          <a class="menu-item-link" href="/">  
+              
+              
+              Home  
+              
+          </a>  
+        </li>  
+        
+    </ul>  
+    
+</nav>  
+
+    </header>
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      [Magic Collection &amp; Map] HashMap及其相关类
+      
+    </h1>
+
+    <div class="post-meta">
+      <span class="post-time">
+        2017-03-25
+      </span>
+      
+      
+      <span class="post-category">
+        
+        <a href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+        
+      </span>
+      
+      
+    </div>
+  </header>
+
+  
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HashMap%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">HashMap及其相关类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap"><span class="toc-number">1.0.1.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedHashMap"><span class="toc-number">1.0.2.</span> <span class="toc-text">LinkedHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">1.0.3.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashTable-%E4%B8%8D%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8"><span class="toc-number">1.0.4.</span> <span class="toc-text">HashTable(不建议使用)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TreeMap"><span class="toc-number">1.0.5.</span> <span class="toc-text">TreeMap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">HashMap原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">存储结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hash%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">hash算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#put%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.3.</span> <span class="toc-text">put方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6-%E5%BE%85%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.1.4.</span> <span class="toc-text">扩容机制-待进一步学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7-%E5%BE%85%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.1.5.</span> <span class="toc-text">线程安全性-待进一步学习</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%EF%BC%8C%E5%A6%82%E4%BD%95%E6%8F%90%E5%8D%87%E6%80%A7%E8%83%BD%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">优化，如何提升性能？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.4.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol>
+    </div>
+  </div>
+  
+
+  <div class="post-content">
+    
+    <p>HashMap、HashTable、TreeMap及其一些并发相关的类小结</p>
+<span id="more"></span>
+
+<h1 id="HashMap及其相关类"><a href="#HashMap及其相关类" class="headerlink" title="HashMap及其相关类"></a>HashMap及其相关类</h1><p><img src="/31910519-file_1488526439660_d36e.png" alt="31910519-file_1488526439660_d36e"></p>
+<p>上图不包括concurrentHashMap，它是集成自AbstractMap的。</p>
+<p>以下是四种Map类型的类，要求映射中的key是不可变对象。不可变对象是该对象在创建后它的哈希值不会被改变。如果对象的哈希值发生变化，Map对象很可能就定位不到映射的位置了。</p>
+<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>根据键的hashCode值存储数据，大多数情况下可以直接定位到它的值，因而具有很快的访问速度，但遍历顺序却是不确定的。 HashMap最多只允许一条记录的键为null，允许多条记录的值为null。HashMap<strong>非线程安全</strong>，即任一时刻可以有多个线程同时写HashMap，可能会导致数据的不一致。如果需要满足线程安全，可以用 <strong>Collections的synchronizedMap</strong>方法使HashMap具有线程安全的能力，或者使用<strong>ConcurrentHashMap</strong>。</p>
+<h3 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h3><p>LinkedHashMap是HashMap的一个子类，保存了记录的插入顺序，在用Iterator遍历LinkedHashMap时，先得到的记录肯定是先插入的，也可以在构造时带参数，按照访问次序排序。</p>
+<h3 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h3><p>引入分段锁，可并发使用</p>
+<blockquote>
+<p>延伸：ConcurrentLinkedQueue也具有类似功能</p>
+</blockquote>
+<h3 id="HashTable-不建议使用"><a href="#HashTable-不建议使用" class="headerlink" title="HashTable(不建议使用)"></a>HashTable(不建议使用)</h3><p>Hashtable是遗留类，很多映射的常用功能与HashMap类似，不同的是它承自Dictionary类，并且是<strong>线程安全</strong>的，任一时间只有一个线程能写Hashtable，<strong>并发性不如ConcurrentHashMap</strong>，因为ConcurrentHashMap引入了<strong>分段锁</strong>。Hashtable不建议在新代码中使用，不需要线程安全的场合可以用HashMap替换，需要线程安全的场合可以用ConcurrentHashMap替换。</p>
+<p>key和value都不允许出现null值。HashTable直接使用对象的hashCode。</p>
+<blockquote>
+<p>延伸，和Vector是遗留类，都具有线程安全性</p>
+</blockquote>
+<h3 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h3><p>TreeMap实现SortedMap接口，能够把它保存的记录<strong>根据键排序</strong>，默认是按键值的升序排序，也可以指定排序的比较器，当用Iterator遍历TreeMap时，得到的记录是排过序的。如果使用排序的映射，建议使用TreeMap。在使用TreeMap时，<strong>key必须实现Comparable接口或者在构造TreeMap传入自定义的Comparator</strong>，否则会在运行时抛出<strong>java.lang.ClassCastException</strong>类型的异常。</p>
+<h2 id="HashMap原理"><a href="#HashMap原理" class="headerlink" title="HashMap原理"></a>HashMap原理</h2><h3 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h3><p>数组+链表+红黑树（JDK1.8新增了红黑树部分）</p>
+<p><img src="/76859766-file_1488528122216_d78c.png" alt="76859766-file_1488528122216_d78c"></p>
+<p>HashMap类中有一个非常重要的字段，就是 Node[] table，即哈希桶数组，即图中黑点。</p>
+<p>HashMap就是使用哈希表来存储的。哈希表为解决冲突，可以采用开放地址法和链地址法等来解决问题，Java中HashMap采用了链地址法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造方法涉及的主要参数</span></span><br><span class="line"><span class="type">int</span> threshold;             <span class="comment">// 所能容纳的key-value对极限 负载因子*大小，默认16*0.75=12</span></span><br><span class="line"><span class="keyword">final</span> <span class="type">float</span> loadFactor;    <span class="comment">// 负载因子，默认0.75</span></span><br><span class="line"><span class="type">int</span> modCount;  </span><br><span class="line"><span class="type">int</span> size;					<span class="comment">// 就是HashMap中实际存在的键值对数量</span></span><br><span class="line">			<span class="comment">// table的长度length不同于size，数组长度，默认16</span></span><br></pre></td></tr></table></figure>
+
+<p>默认的负载因子0.75是对空间和时间效率的一个平衡选择，建议大家不要修改，除非在时间和空间比较特殊的情况下，如果内存空间很多而又对时间效率要求很高，可以降低负载因子Load factor的值；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值，这个值可以大于1。</p>
+<p>在HashMap中，哈希桶数组table的长度length大小必须为2的n次方(一定是合数)，这是一种非常规的设计，常规的设计是把桶的大小设计为素数。相对来说素数导致冲突的概率要小于合数，具体证明可以参考<a target="_blank" rel="noopener" href="http://blog.csdn.net/liuqiyao_01/article/details/14475159">http://blog.csdn.net/liuqiyao_01&#x2F;article&#x2F;details&#x2F;14475159</a>，Hashtable初始化桶大小为11，就是桶大小设计为素数的应用（Hashtable扩容后不能保证还是素数）。HashMap采用这种非常规设计，主要是为了在取模和扩容时做优化，同时为了减少冲突，HashMap定位哈希桶索引位置时，也加入了高位参与运算的过程。</p>
+<p>这里存在一个问题，即使负载因子和Hash算法设计的再合理，也免不了会出现拉链过长的情况，一旦出现拉链过长，则会严重影响HashMap的性能。于是，在JDK1.8版本中，对数据结构做了进一步的优化，引入了红黑树。而当链表长度太长（默认超过8）时，链表就转换为红黑树，利用红黑树快速增删改查的特点提高HashMap的性能，其中会用到红黑树的插入、删除、查找等算法。本文不再对红黑树展开讨论，想了解更多红黑树数据结构的工作原理可以参考<a target="_blank" rel="noopener" href="http://blog.csdn.net/v_july_v/article/details/6105630">http://blog.csdn.net/v_july_v&#x2F;article&#x2F;details&#x2F;6105630</a>。</p>
+<h3 id="hash算法"><a href="#hash算法" class="headerlink" title="hash算法"></a>hash算法</h3><p>定位的主要hash算法是，三步：<strong>取key的hashCode值、高位运算、取模运算</strong>。</p>
+<blockquote>
+<p>模运算的消耗还是比较大的，在HashMap中是这样做的：调用&amp;来计算该对象应该保存在table数组的哪个索引处。</p>
+<p>这个方法非常巧妙，它通过h &amp; (table.length -1)来得到该对象的保存位，而HashMap底层数组的长度总是2的n次方，这是HashMap在速度上的优化。当length总是2的n次方时，h&amp; (length-1)运算等价于对length取模，也就是h%length，但是&amp;比%具有更高的效率。</p>
+<p>在JDK1.8的实现中，优化了高位运算的算法，通过hashCode()的高16位异或低16位实现的：(h &#x3D; k.hashCode()) ^ (h &gt;&gt;&gt; 16)，主要是从速度、功效、质量来考虑的，这么做可以在数组table的length比较小的时候，<strong>也能保证考虑到高低Bit都参与到Hash的计算中</strong>，同时不会有太大的开销。</p>
+</blockquote>
+<p><img src="/57677317-file_1488528851723_556d.png" alt="57677317-file_1488528851723_556d"></p>
+<h3 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h3><p><img src="/87750369-file_1488529037481_a975.png" alt="87750369-file_1488529037481_a975"></p>
+<h3 id="扩容机制-待进一步学习"><a href="#扩容机制-待进一步学习" class="headerlink" title="扩容机制-待进一步学习"></a>扩容机制-待进一步学习</h3><p>使用一个容量更大的数组来代替已有的容量小的数组，transfer()方法将原有Entry数组的元素拷贝到新的Entry数组里。</p>
+<p>1.7需要重新计算hash值</p>
+<p>1.8不需要重新计算hash值，直接由旧的hash值得出，不会倒置</p>
+<h3 id="线程安全性-待进一步学习"><a href="#线程安全性-待进一步学习" class="headerlink" title="线程安全性-待进一步学习"></a>线程安全性-待进一步学习</h3><p>在多线程使用场景中，应该尽量避免使用线程不安全的HashMap，而使用线程安全的ConcurrentHashMap。那么为什么说HashMap是线程不安全的，下面举例子说明在并发的多线程使用场景中使用HashMap可能造成死循环。代码例子如下(便于理解，仍然使用JDK1.7的环境)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HashMapInfiniteLoop</span> &#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> HashMap&lt;Integer,String&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;Integer,String&gt;(<span class="number">2</span>，<span class="number">0.75f</span>);  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;  </span><br><span class="line">        map.put(<span class="number">5</span>， <span class="string">&quot;C&quot;</span>);  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="string">&quot;Thread1&quot;</span>) &#123;  </span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;  </span><br><span class="line">                map.put(<span class="number">7</span>, <span class="string">&quot;B&quot;</span>);  </span><br><span class="line">                System.out.println(map);  </span><br><span class="line">            &#125;;  </span><br><span class="line">        &#125;.start();  </span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="string">&quot;Thread2&quot;</span>) &#123;  </span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;  </span><br><span class="line">                map.put(<span class="number">3</span>, <span class="string">&quot;A);  </span></span><br><span class="line"><span class="string">                System.out.println(map);  </span></span><br><span class="line"><span class="string">            &#125;;  </span></span><br><span class="line"><span class="string">        &#125;.start();        </span></span><br><span class="line"><span class="string">    &#125;  </span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="优化，如何提升性能？"><a href="#优化，如何提升性能？" class="headerlink" title="优化，如何提升性能？"></a>优化，如何提升性能？</h2><ol>
+<li>解决扩容损失：如果知道大致需要的容量，把初始容量设置好以解决扩容损失；<br>比如我现在有1000个数据，需要 1000&#x2F;0.75 &#x3D; 1333 个坑位，又 1024 &lt; 1333 &lt; 2048，所以最好使用2048作为初始容量。 </li>
+<li>解决碰撞损失：使用高效的HashCode与loadFactor，这个…由于JDK8的高性能出现，这儿问题也不大了。</li>
+<li>解决数据结构选择的错误：在大型的数据与搜索中考虑使用别的结构比如TreeMap，这个就是知识积累了。一般需要key排序时，建议使用TreeMap，本文暂不讨论；</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>(1) 扩容是一个特别耗性能的操作，所以当程序员在使用HashMap的时候，估算map的大小，初始化的时候给一个大致的数值，避免map进行频繁的扩容。</p>
+<p>(2) 负载因子是可以修改的，也可以大于1，但是建议不要轻易修改，除非情况非常特殊。</p>
+<p>(3) HashMap是线程不安全的，不要在并发的环境中同时操作HashMap，建议使用ConcurrentHashMap。</p>
+<p>(4) JDK1.8引入红黑树大程度优化了HashMap的性能。</p>
+<p>(5) 还没升级JDK1.8的，现在开始升级吧。HashMap的性能提升仅仅是JDK1.8的冰山一角。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://tech.meituan.com/java-hashmap.html">Java 8系列之重新认识HashMap</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/e54047b2b563">HashMap的实现与优化</a></li>
+</ul>
+
+    
+  </div>
+
+  
+  <!-- Post Copyright -->
+
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span>Author: </span>
+    <a href="https://hyh21.cn">HYH</a>
+  </p>
+  <p class="copyright-item">
+    <span>Link: </span>
+    <a href="https://hyh21.cn/2017/03/25/Magic-Collection-Map-HashMap%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E7%B1%BB/">https://hyh21.cn/2017/03/25/Magic-Collection-Map-HashMap%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E7%B1%BB/</a>
+  </p>
+  <p class="copyright-item">
+    <span>License: </span>
+    
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+  </p>
+</div>
+
+    
+
+  
+
+  
+  <footer class="post-footer">
+    
+    <div class="post-tags">
+      
+      <a href="/tags/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+      
+      <a href="/tags/Collection-Map/">Collection&amp;Map</a>
+      
+    </div>
+    
+      
+  <nav class="post-nav">  
+      
+      <a class="prev" href="/2017/03/27/%E5%85%83%E9%A6%96%E4%BC%9A%E6%99%A4-https%E5%8E%9F%E7%90%86%E5%8F%8A%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81/">  
+        <i class="iconfont icon-left"></i>  
+        <span class="prev-text nav-default">[元首会晤] https原理及证书验证</span>  
+        <span class="prev-text nav-mobile">Prev</span>  
+      </a>  
+      
+      
+      <a class="next" href="/2017/03/22/Magic-Collection-Map-Java%E3%80%81Android%E9%9B%86%E5%90%88%E7%B1%BB%E6%A6%82%E5%86%B5%E3%80%81%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB/">  
+        <span class="next-text nav-default">[Magic Collection & Map] Java、Android集合类概况、继承关系</span>  
+        <span class="prev-text nav-mobile">Next</span>  
+        <i class="iconfont icon-right"></i>  
+      </a>  
+      
+  </nav>  
+  
+
+  </footer>
+  
+
+</article>
+        </div>
+          
+  <div class="comments" id="comments">  
+      
+  </div>  
+  
+
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <!-- Social Links -->
+
+<div class="social-links">
+  
+  
+  
+  
+  <a href="mailto:example@email.com" class="iconfont icon-email" title="email"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <a target="_blank" rel="noopener" href="https://github.com/HYH21" class="iconfont icon-github" title="github"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+  
+</div>
+
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme -
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/zeed-w-beez/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    <span>
+      
+      &copy;
+      
+      2015 - 2025      
+    </span>
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+
+    <span class="author">HYH</span>
+  </span>
+
+</div>
+    </footer>
+    <div class="back-to-top" id="back-to-top"> <i class="iconfont icon-up"></i> </div>
+  </div>
+    
+    
+    
+    
+    
+    
+    
+  
+
+  
+
+
+
+
+
+
+
+<script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/even.js?v=3.0.0"></script>
+</body>
+
+</html>

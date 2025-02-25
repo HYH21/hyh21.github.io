@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Website mata -->
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- Disable transformation -->
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<!-- Website description -->
+
+<meta name="description" content="[元首会晤] https原理及证书验证" />
+
+
+<!-- Website keywords -->
+
+<meta name="keywords" content="计算机网络, 2116喵喵技术屋个人分享" />
+
+
+
+
+<!-- Website rss -->
+
+<link rel="alternate" href="/default" title="2116喵喵技术屋个人分享" >
+
+
+<!-- Website favicon -->
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3.0.0" />
+
+
+<!-- Canonical, good for google search engine -->
+<link rel="canonical" href="https://hyh21.cn/2017/03/27/元首会晤-https原理及证书验证/" />
+
+<!-- Fancybox styling -->
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+<!-- MathJax (LaTeX) support -->
+
+
+<!-- Theme styling -->
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=3.0.0" />
+
+<!-- Analytics and push -->
+
+
+
+  
+
+
+
+<!-- LeanCloud Counter -->
+
+
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null,"server_url":null,"cdn":null},"toc":true,"fancybox":true,"latex":false};
+</script>
+  
+  <title>[元首会晤] https原理及证书验证 - 2116喵喵技术屋个人分享</title>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div class="scrollPercentage"></div>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">2116喵喵技术屋个人分享</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+    <a href="/">
+      <li class="mobile-menu-item">
+        
+        
+        Home              </li>
+    </a>
+    
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+      <div class="logo-wrapper">  
+  <a href="/." class="logo">2116喵喵技术屋个人分享</a>  
+</div>  
+  
+<nav class="site-navbar">  
+    
+    <ul id="menu" class="menu">  
+        
+        <li class="menu-item">  
+          <a class="menu-item-link" href="/">  
+              
+              
+              Home  
+              
+          </a>  
+        </li>  
+        
+    </ul>  
+    
+</nav>  
+
+    </header>
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      [元首会晤] https原理及证书验证
+      
+    </h1>
+
+    <div class="post-meta">
+      <span class="post-time">
+        2017-03-27
+      </span>
+      
+      
+      
+    </div>
+  </header>
+
+  
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">加密算法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#https"><span class="toc-number">2.</span> <span class="toc-text">https</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">验证流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E6%98%8E%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">简明流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%EF%BC%88%E5%90%AB%E8%AF%81%E4%B9%A6%EF%BC%89"><span class="toc-number">2.1.2.</span> <span class="toc-text">流程（含证书）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BD%95%E9%9C%80%E8%A6%81%E5%A6%82%E6%AD%A4%E5%A4%8D%E6%9D%82"><span class="toc-number">2.2.</span> <span class="toc-text">为何需要如此复杂</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6"><span class="toc-number">3.</span> <span class="toc-text">数字证书</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6%E7%BB%84%E6%88%90"><span class="toc-number">3.1.</span> <span class="toc-text">证书组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6%E9%93%BE"><span class="toc-number">3.2.</span> <span class="toc-text">证书链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81%E8%BF%87%E7%A8%8B"><span class="toc-number">3.3.</span> <span class="toc-text">证书验证过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">4.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </div>
+  
+
+  <div class="post-content">
+    
+    <p>重温梳理了一下计网方面的知识，感觉就像是两国元首如何进行会晤沟通一样，挺有趣，先抽一个安全方面的Https来进行一下首脑之间如何讲悄悄话。</p>
+<span id="more"></span>
+
+<h2 id="加密算法简介"><a href="#加密算法简介" class="headerlink" title="加密算法简介"></a>加密算法简介</h2><p>正文开始之前，我先来解释简单的解释下对称加密和非对称加密。</p>
+<blockquote>
+<p> <strong>对称加密</strong>采用对称密码编码技术，也就是编码和解码采用相同描述字符，即加密和解密使用相同的密钥，实现这种加密技术的算法称对称加密算法。对称加密使用简单，密钥较短，加密和解密过程较快，耗时短，常见的对称加密算法有DES，3DES，lDEA，AES，RC4等。</p>
+</blockquote>
+<blockquote>
+<p> <strong>非对称加密</strong>与对称加密不同，其加密算法需要两个密钥：公开密钥（publickey）和私有密钥（private），两者是一对的。如果用公钥加密，只能用私钥才能解密。非对称加密保密性好，但加密和解密花费的时间较长，不适合对大文件加密而只适合对少量的数据加密。常见的非对称加密算法有RSA，ECC，DSA(数字签名)等。</p>
+</blockquote>
+<blockquote>
+<p> <strong>Hash算法</strong>是一种单向算法，通过Hash算法可以对目标数据生成一段特定长度、唯一的hash值,但是不能通过这个hash值重新计算出原始的数据，因此也称之为摘要算法，经常被用在不需要数据还原的密码加密以及数据完整性校验上，常用的算法有MD2，MD4，MD5，SHA等。</p>
+</blockquote>
+<h2 id="https"><a href="#https" class="headerlink" title="https"></a>https</h2><p>为了保证这些隐私数据能加密传输，于是网景公司设计了SSL（Secure Sockets Layer）协议用于对HTTP协议传输的数据进行加密，从而就诞生了HTTPS。SSL目前的版本是3.0，被IETF（Internet Engineering Task Force）定义在RFC 6101中，之后IETF对SSL 3.0进行了升级，于是出现了TLS（Transport Layer Security） 1.0，定义在RFC 2246。<strong>实际上我们现在的HTTPS都是用的TLS协议</strong>，但是由于SSL出现的时间比较早，并且依旧被现在浏览器所支持，因此SSL依然是HTTPS的代名词，但无论是TLS还是SSL都是上个世纪的事情，SSL最后一个版本是3.0，今后TLS将会继承SSL优良血统继续为我们进行加密服务。</p>
+<h3 id="验证流程"><a href="#验证流程" class="headerlink" title="验证流程"></a>验证流程</h3><h4 id="简明流程"><a href="#简明流程" class="headerlink" title="简明流程"></a>简明流程</h4><p><img src="/69709947-file_1490619944392_3109.png"><br>上面这张图片已经清楚的展示了HTTPS工作的流程。</p>
+<p>1. [Server]生成一对密钥：公钥和私钥，我们称之为“KeyPub”，“KeyPri”<br>2. [Server]服务端将公钥（KeyPub）发送到客户端<br>3. [Client]生成一个对称密钥（姑且称之为key2），然后用key2加密数据。<br>4. [Client]使用公钥（KeyPub）加密key2.这时，key2是安全的，因为只有服务度有私钥KeyPri<br>5. [Client]发送用key2加密后的信息及用KeyPub加密过的key2到服务端<br>6. [Server]服务端使用KeyPri解密得到加密过的key2，得到真正的key2<br>7. [Server]使用key2解密消息正文。这样，数据就被安全的传输到了服务端。<br>   （上教程未说明证书的作用）</p>
+<h4 id="流程（含证书）"><a href="#流程（含证书）" class="headerlink" title="流程（含证书）"></a>流程（含证书）</h4><p><img src="/80510192-file_1490619981812_760a.png"><br>注：文中所写的序号与图不对应但流程是对应的</p>
+<p>1. 客户端发起一个https的请求，把自身支持的一系列Cipher Suite（密钥算法套件，简称Cipher）发送给服务端</p>
+<p>2. 服务端，接收到客户端所有的Cipher后与自身支持的对比，如果不支持则连接断开，反之则会从中选出一种加密算法和HASH算法</p>
+<p> <strong>以证书的形式</strong>返回给客户端 证书中还包含了 <strong>公钥</strong> 颁证机构 网址 失效日期等等。</p>
+<p>1. 客户端收到服务端响应后会做以下几件事</p>
+<p>- 验证证书的合法性(<strong>如何验证参考下文的数字证书部分</strong>)<br>   颁发证书的机构是否合法与是否过期，证书中包含的网站地址是否与正在访问的地址一致等</p>
+<p>- 生成随机密码<br>   如果证书验证通过，或者用户接受了不授信的证书，此时浏览器<strong>会生成一串随机数</strong>，然后用<strong>证书中的公钥</strong>加密。</p>
+<p>- HASH握手信息<br>   用最开始约定好的HASH方式，把握手消息取HASH值，  然后用 <strong>随机数</strong>加密 “<strong>握手消息+握手消息HASH值(签名)</strong>”  并一起发送给服务端<br>   在这里之所以要取握手消息的HASH值，主要是把握手消息做一个签名，用于<strong>验证握手消息在传输过程中没有被篡改过</strong>。</p>
+<p>1. 服务端拿到客户端传来的密文，用<strong>自己的私钥</strong>来解密握手消息取出<strong>随机数密码</strong>，再用随机数密码 解密 握手消息与HASH值，并与传过来的HASH值做对比确认是否一致。</p>
+<p> 然后用随机密码加密一段握手消息(握手消息+握手消息的HASH值 )给客户端</p>
+<p>1. 客户端用随机数解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束，之后所有的通信数据将由之前浏览器生成的<strong>随机密码并利用对称加密算法</strong>进行加密</p>
+<p> 因为这串密钥只有客户端和服务端知道，所以即使中间请求被拦截也是没法解密数据的，以此保证了通信的安全</p>
+<h3 id="为何需要如此复杂"><a href="#为何需要如此复杂" class="headerlink" title="为何需要如此复杂"></a>为何需要如此复杂</h3><p>主要是因为非对称加密的性能比对称加密的性能差。可参考如下文章<br><a target="_blank" rel="noopener" href="http://blog.csdn.net/dd864140130/article/details/52598107">http://blog.csdn.net/dd864140130/article/details/52598107</a></p>
+<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p>由Certificate  Authority机构发放。</p>
+<p>我们将自己生成的CSR提交给签名商，他们用中级证书机构的私钥Private Key给我们的签名成证书。而他们的的证书又是通过Root CA颁发的（即Root CA通过它的私钥对中级机构提交的CSR进行了签名）。</p>
+<h3 id="证书组成"><a href="#证书组成" class="headerlink" title="证书组成"></a>证书组成</h3><p>1. 证书内容（Certificate）：<br>   证书所有人公钥（Subject’s Public Key Info）、<br>   签发机构（Issuer）、<br>   标识名 (Distinguished Name) 等</p>
+<p>2. 加密算法（Certificate Signature Algorithm）：<br>   包含hash算法和非对称算法两个算法，一般为SHA1和REA</p>
+<p>3. 数字签名（Certificate Signature Value）：<br>   <strong>Certificate —&gt; hash1 —签发机构签名—&gt; 数字签名</strong><br>   由hash算法对证书内容进行加密得到hash1，再使用<strong>签发此证书机构的私匙</strong>对hash1进行加密得到数字签名。<br>   （需要使用机构的公匙才可以进行解密）<br>   <strong>注意：此处是签发此证书的CA机构的私匙</strong></p>
+<h3 id="证书链"><a href="#证书链" class="headerlink" title="证书链"></a>证书链</h3><p>一般现在有 根证书、中间证书、个人证书。事实会存在层数不同的证书。是父子关系。</p>
+<p>1. 根证书<br>   签发机构就是本身，windows自带有一部分根证书，这部分证书对于系统来说就是可信的证书。</p>
+<h3 id="证书验证过程"><a href="#证书验证过程" class="headerlink" title="证书验证过程"></a>证书验证过程</h3><p>简单来说，通过hash算法对证书内容取得hash1值，再通过公匙对证书中的数字签名进行解密获得hash2值（为何hash2？参考数字签名组成），若hash1与hash2相符，则认为此证书可信。</p>
+<p>签名验证说明<br><img src="/86806881-file_1490619988194_7dcb.png"></p>
+<p><strong>问题出现于hash2的解密公匙来于何处</strong><br>此公匙即此证书的上级证书的证书内容中的所有者公匙。</p>
+<p>在获得父证书并取得其公匙的过程中，需要<strong>验证父证书是否可信</strong>，此时若父证书不是根证书则需要继续获得父证书的上一级证书来验证父证书是否可信。若父证书为<strong>根证书</strong>，则可信，则可用其公匙进行验证。<br>（通过此规则，我们平时<strong>手动添加根证书是不安全</strong>的做法，根证书并的机构并不多，Android已经把将近150个CA根证书（数字证书认证机构认证过的证书）内置在我们手机中。）</p>
+<p>多级验证过程<br><img src="/79149138-file_1490620080666_afed.png"></p>
+<p>画图版<br><img src="/2419784-file_1490620036007_6e76.png"></p>
+<p>附：证书有多种格式</p>
+<p>*   x.509<br>     x.509证书通常用于包含一个公钥</p>
+<p>*   PKCS12<br>      PKCS12证书通常用来包含一个私钥。因此，PKCS12需要密码才能打开。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/zery/p/5164795.html">http://www.cnblogs.com/zery/p/5164795.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/hyddd/archive/2009/01/07/1371292.html">http://www.cnblogs.com/hyddd/archive/2009/01/07/1371292.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://lukejin.iteye.com/blog/587200">http://lukejin.iteye.com/blog/587200</a><br>google，W3c要推进的内容加密协议ontent Security Policy Level 2 is a Candidate Recommendation.，<a target="_blank" rel="noopener" href="https://developers.google.com/web/fundamentals/security/csp/">https://developers.google.com/web/fundamentals/security/csp/</a></p>
+
+    
+  </div>
+
+  
+  <!-- Post Copyright -->
+
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span>Author: </span>
+    <a href="https://hyh21.cn">HYH</a>
+  </p>
+  <p class="copyright-item">
+    <span>Link: </span>
+    <a href="https://hyh21.cn/2017/03/27/%E5%85%83%E9%A6%96%E4%BC%9A%E6%99%A4-https%E5%8E%9F%E7%90%86%E5%8F%8A%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81/">https://hyh21.cn/2017/03/27/%E5%85%83%E9%A6%96%E4%BC%9A%E6%99%A4-https%E5%8E%9F%E7%90%86%E5%8F%8A%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81/</a>
+  </p>
+  <p class="copyright-item">
+    <span>License: </span>
+    
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+  </p>
+</div>
+
+    
+
+  
+
+  
+  <footer class="post-footer">
+    
+    <div class="post-tags">
+      
+      <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+      
+    </div>
+    
+      
+  <nav class="post-nav">  
+      
+      <a class="prev" href="/2017/03/31/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Android%E5%BA%94%E7%94%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">  
+        <i class="iconfont icon-left"></i>  
+        <span class="prev-text nav-default">[读书笔记] Android应用性能优化</span>  
+        <span class="prev-text nav-mobile">Prev</span>  
+      </a>  
+      
+      
+      <a class="next" href="/2017/03/25/Magic-Collection-Map-HashMap%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E7%B1%BB/">  
+        <span class="next-text nav-default">[Magic Collection & Map] HashMap及其相关类</span>  
+        <span class="prev-text nav-mobile">Next</span>  
+        <i class="iconfont icon-right"></i>  
+      </a>  
+      
+  </nav>  
+  
+
+  </footer>
+  
+
+</article>
+        </div>
+          
+  <div class="comments" id="comments">  
+      
+  </div>  
+  
+
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <!-- Social Links -->
+
+<div class="social-links">
+  
+  
+  
+  
+  <a href="mailto:example@email.com" class="iconfont icon-email" title="email"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <a target="_blank" rel="noopener" href="https://github.com/HYH21" class="iconfont icon-github" title="github"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+  
+</div>
+
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme -
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/zeed-w-beez/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    <span>
+      
+      &copy;
+      
+      2015 - 2025      
+    </span>
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+
+    <span class="author">HYH</span>
+  </span>
+
+</div>
+    </footer>
+    <div class="back-to-top" id="back-to-top"> <i class="iconfont icon-up"></i> </div>
+  </div>
+    
+    
+    
+    
+    
+    
+    
+  
+
+  
+
+
+
+
+
+
+
+<script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/even.js?v=3.0.0"></script>
+</body>
+
+</html>

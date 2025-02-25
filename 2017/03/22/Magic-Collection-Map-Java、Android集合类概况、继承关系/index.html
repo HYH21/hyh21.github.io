@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Website mata -->
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- Disable transformation -->
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<!-- Website description -->
+
+<meta name="description" content="[Magic Collection &amp; Map] Java、Android集合类概况、继承关系" />
+
+
+<!-- Website keywords -->
+
+<meta name="keywords" content="Java基础, Collection&amp;Map, 2116喵喵技术屋个人分享" />
+
+
+
+
+<!-- Website rss -->
+
+<link rel="alternate" href="/default" title="2116喵喵技术屋个人分享" >
+
+
+<!-- Website favicon -->
+
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=3.0.0" />
+
+
+<!-- Canonical, good for google search engine -->
+<link rel="canonical" href="https://hyh21.cn/2017/03/22/Magic-Collection-Map-Java、Android集合类概况、继承关系/" />
+
+<!-- Fancybox styling -->
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+
+
+<!-- MathJax (LaTeX) support -->
+
+
+<!-- Theme styling -->
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=3.0.0" />
+
+<!-- Analytics and push -->
+
+
+
+  
+
+
+
+<!-- LeanCloud Counter -->
+
+
+<script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null,"server_url":null,"cdn":null},"toc":true,"fancybox":true,"latex":false};
+</script>
+  
+  <title>[Magic Collection &amp; Map] Java、Android集合类概况、继承关系 - 2116喵喵技术屋个人分享</title>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div class="scrollPercentage"></div>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">2116喵喵技术屋个人分享</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+    <a href="/">
+      <li class="mobile-menu-item">
+        
+        
+        Home              </li>
+    </a>
+    
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+      <div class="logo-wrapper">  
+  <a href="/." class="logo">2116喵喵技术屋个人分享</a>  
+</div>  
+  
+<nav class="site-navbar">  
+    
+    <ul id="menu" class="menu">  
+        
+        <li class="menu-item">  
+          <a class="menu-item-link" href="/">  
+              
+              
+              Home  
+              
+          </a>  
+        </li>  
+        
+    </ul>  
+    
+</nav>  
+
+    </header>
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      
+      [Magic Collection &amp; Map] Java、Android集合类概况、继承关系
+      
+    </h1>
+
+    <div class="post-meta">
+      <span class="post-time">
+        2017-03-22
+      </span>
+      
+      
+      <span class="post-category">
+        
+        <a href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+        
+      </span>
+      
+      
+    </div>
+  </header>
+
+  
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Magic-Collection-Map-Java%E3%80%81Android%E9%9B%86%E5%90%88%E7%B1%BB%E6%A6%82%E5%86%B5%E3%80%81%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB"><span class="toc-number">1.</span> <span class="toc-text">[Magic Collection &amp; Map] Java、Android集合类概况、继承关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E9%9B%86%E5%90%88%E7%9A%84%E8%80%83%E8%99%91"><span class="toc-number">1.1.</span> <span class="toc-text">选择集合的考虑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#List"><span class="toc-number">1.1.1.</span> <span class="toc-text">List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set"><span class="toc-number">1.1.2.</span> <span class="toc-text">Set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map"><span class="toc-number">1.1.3.</span> <span class="toc-text">Map</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Collection%E3%80%81Iterator"><span class="toc-number">2.</span> <span class="toc-text">Collection、Iterator</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#List-1"><span class="toc-number">2.1.</span> <span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList%E3%80%81LinkedList"><span class="toc-number">2.1.1.</span> <span class="toc-text">ArrayList、LinkedList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vector%E3%80%81Stack"><span class="toc-number">2.1.2.</span> <span class="toc-text">Vector、Stack</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-1"><span class="toc-number">2.2.</span> <span class="toc-text">Set</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HashSet%E3%80%81LinkedHashSet%E3%80%81EnumSet"><span class="toc-number">2.2.1.</span> <span class="toc-text">HashSet、LinkedHashSet、EnumSet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SortedSet%E2%80%94%E2%80%94TreeSet"><span class="toc-number">2.2.2.</span> <span class="toc-text">SortedSet——TreeSet</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Queue"><span class="toc-number">2.3.</span> <span class="toc-text">Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayQueue%E3%80%81PriorityQueue"><span class="toc-number">2.3.1.</span> <span class="toc-text">ArrayQueue、PriorityQueue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deque%E2%80%94%E2%80%94ArrayDeque"><span class="toc-number">2.3.2.</span> <span class="toc-text">Deque——ArrayDeque</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map-1"><span class="toc-number">3.</span> <span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap%E3%80%81HashTable%E3%80%81LinkedHashMap"><span class="toc-number">3.0.1.</span> <span class="toc-text">HashMap、HashTable、LinkedHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SortedMap%E2%80%94%E2%80%94TreeMap"><span class="toc-number">3.0.2.</span> <span class="toc-text">SortedMap——TreeMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WeakHashMap%E3%80%81IdentityHashMap%E3%80%81EnumMap"><span class="toc-number">3.0.3.</span> <span class="toc-text">WeakHashMap、IdentityHashMap、EnumMap</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%B1%BB%E7%9B%B8%E5%85%B3"><span class="toc-number">4.</span> <span class="toc-text">并发类相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Concurrent"><span class="toc-number">4.1.</span> <span class="toc-text">Concurrent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CopyOnWrite"><span class="toc-number">4.2.</span> <span class="toc-text">CopyOnWrite</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blocking"><span class="toc-number">4.3.</span> <span class="toc-text">Blocking</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </div>
+  </div>
+  
+
+  <div class="post-content">
+    
+    <p>本文主要使用UML图，介绍Java和Android涉及到的容器类之间的关系，作为一个索引，来进行接下来的一些集合源码的阅读。</p>
+<span id="more"></span>
+
+<p>[TOC]</p>
+<h1 id="Magic-Collection-Map-Java、Android集合类概况、继承关系"><a href="#Magic-Collection-Map-Java、Android集合类概况、继承关系" class="headerlink" title="[Magic Collection &amp; Map] Java、Android集合类概况、继承关系"></a>[Magic Collection &amp; Map] Java、Android集合类概况、继承关系</h1><p>容器的具体关系主要可以分为：</p>
+<ul>
+<li>Collection<ul>
+<li>List：</li>
+<li>Set：不可重复的一组数据</li>
+<li>Queue、Deque：可以进行队列操作的数据</li>
+</ul>
+</li>
+<li>Map：键值对</li>
+<li>并发类汇总：<ul>
+<li>Blocking、Concurrent、CopyOnWrite</li>
+</ul>
+</li>
+</ul>
+<h2 id="选择集合的考虑"><a href="#选择集合的考虑" class="headerlink" title="选择集合的考虑"></a>选择集合的考虑</h2><h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><ol>
+<li>数组实现：随机访问时性能最好</li>
+<li>链表实现：在执行插入、删除操作时有很好的性能</li>
+<li>栈和队列：queue可以作为队列，Deque可以作为队列和栈，在只需要队列的情况下应使用queue来限制操作</li>
+</ol>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><ol>
+<li>存储不重复的数据时使用Set</li>
+<li>对于普通的插入、删除操作，LinkedHashSet比HashSet要略慢一点，遍历会快</li>
+<li>EnumSet是所有Set实现类中性能最好的，但它只能保存同一个枚举类的枚举值作为集合元素</li>
+</ol>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><ol>
+<li>使用HashMap而不是HashTable，HashTable需要同步消耗</li>
+<li>需要排序再使用TreeMap，构建红黑树的方式进行排序</li>
+</ol>
+<h1 id="Collection、Iterator"><a href="#Collection、Iterator" class="headerlink" title="Collection、Iterator"></a><strong>Collection、Iterator</strong></h1><p>Iterator，可以使用<code>foreach</code> 进行遍历，还有迭代器<code>iterator()</code> 方法进行遍历</p>
+<p>Collection就是一个组数据的集合</p>
+<blockquote>
+<p>打不开点击这个链接打开大图 <a target="_blank" rel="noopener" href="http://i2.buimg.com/567571/d01721b1ed7c847c.png">http://i2.buimg.com/567571/d01721b1ed7c847c.png</a></p>
+</blockquote>
+<p><img src="http://i4.buimg.com/567571/b4073e4931744de8.png"></p>
+<h2 id="List-1"><a href="#List-1" class="headerlink" title="List"></a><strong>List</strong></h2><p>作为一个线性表接口，可重复，因此可以通过<code>索引</code> 来指定位置的集合元素</p>
+<h3 id="ArrayList、LinkedList"><a href="#ArrayList、LinkedList" class="headerlink" title="ArrayList、LinkedList"></a>ArrayList、LinkedList</h3><ul>
+<li>ArrayList基于数组封装，默认大小是12，每次扩容至原来的1.5倍</li>
+<li>LinkedList继承自AbstractSequentialList，使用链表实现，实现了Queue和Deque，可以用作队列和栈</li>
+</ul>
+<h3 id="Vector、Stack"><a href="#Vector、Stack" class="headerlink" title="Vector、Stack"></a>Vector、Stack</h3><ul>
+<li>Vector与ArrayList几乎一样，古老的版本，支持线程安全</li>
+<li>Starck是Vector 的子类，栈的结构（后进先出）</li>
+</ul>
+<h2 id="Set-1"><a href="#Set-1" class="headerlink" title="Set"></a><strong>Set</strong></h2><p>实现Collection，不能有重复的数据，使用equals来判断是否相同，使用Map来实现</p>
+<h3 id="HashSet、LinkedHashSet、EnumSet"><a href="#HashSet、LinkedHashSet、EnumSet" class="headerlink" title="HashSet、LinkedHashSet、EnumSet"></a>HashSet、LinkedHashSet、EnumSet</h3><ul>
+<li><p>使用Hash来决定存储位置，使用equals+HashCode来判断两个对象是否相同</p>
+</li>
+<li><p>继承自HashSet，使用链表实现，需要维护元素插入位置，适合遍历；实现了Deque接口，可以作为栈队列来进行使用</p>
+</li>
+<li><p>EnumSet提供给枚举类使用</p>
+</li>
+</ul>
+<h3 id="SortedSet——TreeSet"><a href="#SortedSet——TreeSet" class="headerlink" title="SortedSet——TreeSet"></a>SortedSet——TreeSet</h3><ul>
+<li>TreeSet是SortedSet的实现，保证元素有序</li>
+</ul>
+<h2 id="Queue"><a href="#Queue" class="headerlink" title="Queue"></a><strong>Queue</strong></h2><h3 id="ArrayQueue、PriorityQueue"><a href="#ArrayQueue、PriorityQueue" class="headerlink" title="ArrayQueue、PriorityQueue"></a>ArrayQueue、PriorityQueue</h3><p>数组实现的队列和优先级队列</p>
+<h3 id="Deque——ArrayDeque"><a href="#Deque——ArrayDeque" class="headerlink" title="Deque——ArrayDeque"></a>Deque——ArrayDeque</h3><p>数组实现的双端队列，可以用作队列和栈</p>
+<h1 id="Map-1"><a href="#Map-1" class="headerlink" title="Map"></a><strong>Map</strong></h1><p>保存键值对数据（key-value）</p>
+<p><img src="http://i2.buimg.com/567571/2581a95e6dc36714.png"></p>
+<h3 id="HashMap、HashTable、LinkedHashMap"><a href="#HashMap、HashTable、LinkedHashMap" class="headerlink" title="HashMap、HashTable、LinkedHashMap"></a>HashMap、HashTable、LinkedHashMap</h3><ul>
+<li><p>HashMap用key 的hashCode 值进行hash定位，用equals+hashCode方法判断两个key 相等</p>
+</li>
+<li><p>HashTable继承自Dictionary，并实现Map接口，线程安全，古老类</p>
+</li>
+<li><p>LinkedHashMap继承自HashMap，按照插入顺序排序，使用双向链表</p>
+</li>
+</ul>
+<h3 id="SortedMap——TreeMap"><a href="#SortedMap——TreeMap" class="headerlink" title="SortedMap——TreeMap"></a>SortedMap——TreeMap</h3><p>是一个红黑树结构，会进行排序</p>
+<h3 id="WeakHashMap、IdentityHashMap、EnumMap"><a href="#WeakHashMap、IdentityHashMap、EnumMap" class="headerlink" title="WeakHashMap、IdentityHashMap、EnumMap"></a>WeakHashMap、IdentityHashMap、EnumMap</h3><ul>
+<li><p>WeakHashMap”弱引用”，可能会被垃圾回收</p>
+</li>
+<li><p>IdentityHashMap使用“&#x3D;&#x3D;”来进行判断key是否相等</p>
+</li>
+<li><p>EnumMap枚举类实现的Map</p>
+</li>
+</ul>
+<h1 id="并发类相关"><a href="#并发类相关" class="headerlink" title="并发类相关"></a><strong>并发类相关</strong></h1><p>List相关：</p>
+<p><img src="http://i4.buimg.com/567571/a8dd100a65953002.png"></p>
+<p>Set相关：</p>
+<p><img src="http://i2.buimg.com/567571/a0e08cf40d4cb101.png"></p>
+<p>Map相关：</p>
+<p><img src="http://i2.buimg.com/567571/aeee6bf5de1b3f64.png"></p>
+<h2 id="Concurrent"><a href="#Concurrent" class="headerlink" title="Concurrent"></a>Concurrent</h2><ol>
+<li>ConcurrentHashMap</li>
+<li>ConcurrentSkipListMap</li>
+<li>ConcurrentSkipListSet</li>
+<li>ConcurrentLinkedQueue</li>
+</ol>
+<h2 id="CopyOnWrite"><a href="#CopyOnWrite" class="headerlink" title="CopyOnWrite"></a>CopyOnWrite</h2><ol>
+<li>CopyOnWriteArrayList</li>
+<li>CopyOnWriteArraySet</li>
+</ol>
+<h2 id="Blocking"><a href="#Blocking" class="headerlink" title="Blocking"></a>Blocking</h2><ol>
+<li>LinkedBlockingDeque</li>
+<li>LinkedBlockingQueue</li>
+<li>ArrayBlockingQueue</li>
+<li>PriorityBlockingQueue</li>
+</ol>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://www.runoob.com/java/java-collections.html">Java 集合框架</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Tikitoo/blog/issues/30">Java 学习之集合类（Collections）</a></li>
+</ul>
+
+    
+  </div>
+
+  
+  <!-- Post Copyright -->
+
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span>Author: </span>
+    <a href="https://hyh21.cn">HYH</a>
+  </p>
+  <p class="copyright-item">
+    <span>Link: </span>
+    <a href="https://hyh21.cn/2017/03/22/Magic-Collection-Map-Java%E3%80%81Android%E9%9B%86%E5%90%88%E7%B1%BB%E6%A6%82%E5%86%B5%E3%80%81%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB/">https://hyh21.cn/2017/03/22/Magic-Collection-Map-Java%E3%80%81Android%E9%9B%86%E5%90%88%E7%B1%BB%E6%A6%82%E5%86%B5%E3%80%81%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB/</a>
+  </p>
+  <p class="copyright-item">
+    <span>License: </span>
+    
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+  </p>
+</div>
+
+    
+
+  
+
+  
+  <footer class="post-footer">
+    
+    <div class="post-tags">
+      
+      <a href="/tags/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+      
+      <a href="/tags/Collection-Map/">Collection&amp;Map</a>
+      
+    </div>
+    
+      
+  <nav class="post-nav">  
+      
+      <a class="prev" href="/2017/03/25/Magic-Collection-Map-HashMap%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E7%B1%BB/">  
+        <i class="iconfont icon-left"></i>  
+        <span class="prev-text nav-default">[Magic Collection & Map] HashMap及其相关类</span>  
+        <span class="prev-text nav-mobile">Prev</span>  
+      </a>  
+      
+      
+  </nav>  
+  
+
+  </footer>
+  
+
+</article>
+        </div>
+          
+  <div class="comments" id="comments">  
+      
+  </div>  
+  
+
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <!-- Social Links -->
+
+<div class="social-links">
+  
+  
+  
+  
+  <a href="mailto:example@email.com" class="iconfont icon-email" title="email"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <a target="_blank" rel="noopener" href="https://github.com/HYH21" class="iconfont icon-github" title="github"></a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+  
+</div>
+
+
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme -
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/zeed-w-beez/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">
+    <span>
+      
+      &copy;
+      
+      2015 - 2025      
+    </span>
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+
+    <span class="author">HYH</span>
+  </span>
+
+</div>
+    </footer>
+    <div class="back-to-top" id="back-to-top"> <i class="iconfont icon-up"></i> </div>
+  </div>
+    
+    
+    
+    
+    
+    
+    
+  
+
+  
+
+
+
+
+
+
+
+<script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+
+
+
+<script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <script type="text/javascript" src="/js/src/even.js?v=3.0.0"></script>
+</body>
+
+</html>
